@@ -1,20 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo-Apipe</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="public/css/style.css">
 </head>
+
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">Navbar</span>
+        <button type="button" class="btn btn-round btn-background-color">
+            Remises apipe
+        </button>
+        <button type="button" class="btn btn-round btn-background-color">
+            Mostrar mi ubicación
+        </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </nav>
+
+    <!-- Imagen del mapa -->
     <img src="" alt="">
-    
+
+    <!-- Container con demas info -->
+    <div class="container">
+        <div class="jumbotron bg-light" style="border-radius: 21px;">
+            <div class="md-4">
+                <img src="public/icon/empresa.png" alt="Acera de nosotros">
+                <p>Acerca de nosotros.</p>
+            </div>
+            <div class="md-4">
+                <img src="public/icon/mascarilla-medica.png" alt="mascarilla-medica">
+                <p>No olvide utilizar mascarilla.</p>
+            </div>
+        </div>
+    </div>
+
+
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/popper.js/dist/popper.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
