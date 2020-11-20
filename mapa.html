@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar remis</title>
+    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+</head>
+<style>
+    #map{
+        height: 30rem;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="" id="map"></div>
+
+        <section class="row justify-content-center my-4">
+            <div class="col-md-8">
+                <div class="card ">
+                    <div class="card-header">
+                        <h5 class="text-center">Calcular trayectoria</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                <div class="form-row col-sm-12 my-1">
+                                    <label class="col-md-2 col-sm-12 col-form-label text-md-right">Desde</label>
+                                    <div class="col-md-6 col-sm-12">
+                                        <input id="fromAddress" type="text" class="form-control" required >
+                                    </div>
+                                    <button id="myPosition" class="btn btn-primary">Mi Posicion</button>
+                                </div>
+                                <div class="form-row col-sm-12 my-1">
+                                    <label class="col-md-2 col-sm-12 col-form-label text-md-right">Hasta</label>
+                                    <div class="col-md-6 col-sm-12">
+                                        <input id="toAddress" type="text" class="form-control" required >
+                                    </div>
+                                    <button class="btn btn-primary">Mi Posicion</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+    
+    
+    <script src="public/js/main.js"></script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJi9smqABpYfw2v-qVQPlXq7J_yEOzuN0&callback=initMap&libraries=&v=weekly"
+  type="text/javascript"></script>
+    <script src="public/js/maps.js"></script>
+</body>
+</html>
