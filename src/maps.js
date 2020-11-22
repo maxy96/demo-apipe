@@ -19,13 +19,22 @@ const remises = [
     ubicacion: {lat: -27.461481, lng: -58.836318}
   }
 ];
+let options = {
+  //bounds: defaultBounds,
+  types: ['geocode']
+};
 const buttonCurrentPosition = document.querySelectorAll('.current-position')
 const inputFromAddress = document.getElementById('fromAddress');
 const inputToAddress = document.getElementById('toAddress'); 
-const car = 'http://localhost:3000/public/images/car.png'; 
+const car = 'http://localhost:3000/public/images/car.png';
+window.positionFrom;
+window.positionTo;
+
+function setPositionFrom(pos){
+  positionFrom = pos;
+}
 
 function infoRemises(map){
-
   for(remis of remises){
     let infowindow = new google.maps.InfoWindow();
     let marker = new google.maps.Marker({
@@ -48,23 +57,45 @@ function infoRemises(map){
     })(marker, remis));
   }
 }
+//const autocomplete = new google.maps.places.Autocomplete(inputFromAddress);
 
 function initMap() {
   const geocoder = new google.maps.Geocoder();
+  const autocompleteInputFromAddress = new google.maps.places.Autocomplete(inputFromAddress);
+  const autocompleteInputToAddress = new google.maps.places.Autocomplete(inputToAddress);
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer();
+
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -27.471381, lng: -58.832112 },
     zoom: 13,
   });
+
+  directionsRenderer.setMap(map);
+
+  const markerFrom = new google.maps.Marker({map: map});
+  const markerTo = new google.maps.Marker({map: map});
+
   infoRemises(map);
-  //infoWindow = new google.maps.InfoWindow();  
-  
-  buttonCurrentPosition[0].addEventListener("click", () => {
-    handleCurrentGeocoder(inputFromAddress, geocoder);
+
+  autocompleteInputFromAddress.addListener('place_changed', () => {
+    const place = autocompleteInputFromAddress.getPlace();
+    handleInputPlace(place, geocoder, markerFrom, inputFromAddress);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
-  buttonCurrentPosition[1].addEventListener("click", () => {
-    handleCurrentGeocoder(inputToAddress, geocoder);
+
+  autocompleteInputToAddress.addListener('place_changed', () => {
+    const place = autocompleteInputToAddress.getPlace();
+    handleInputPlace(place, geocoder, markerTo, inputToAddress);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+  });
+
+  buttonCurrentPosition[0].addEventListener("click", () => {
+    handleCurrentGeocoder(inputFromAddress, geocoder, markerFrom);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
 }
+
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
@@ -76,13 +107,16 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
-function handleCurrentGeocoder(inputElement, geocoder){
+function handleCurrentGeocoder(inputElement, geocoder, marker){
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
         const pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+
+        positionFrom = pos;
+
         geocoder.geocode({location: pos}, (results, status) => {
           if(status == 'OK'){
             if(results[0]){
@@ -92,10 +126,7 @@ function handleCurrentGeocoder(inputElement, geocoder){
         })
 
         map.setCenter(pos);
-        const marker = new google.maps.Marker({
-          position: pos,
-          map: map,
-        });
+        marker.setPosition(pos);
       },
       () => {
         handleLocationError(true, infoWindow, map.getCenter());
@@ -104,6 +135,45 @@ function handleCurrentGeocoder(inputElement, geocoder){
   } else {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+function handleInputPlace(place, geocoder, marker ,input){
+  geocoder.geocode({'placeId': place.place_id}, function (results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      const lat = results[0].geometry.location.lat();
+      const lng = results[0].geometry.location.lng();
+      //const direccion = place.formatted_address;
+      marker.setPosition({lat: lat, lng: lng});
+    }
+  });
+  if (!place.geometry) {
+    window.alert('Datos incorrectos ');
+    input.value = "";
+    return;
+  }  
+}
+
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+  if(inputFromAddress.value && inputToAddress.value){
+    directionsService.route(
+      {
+        origin: {
+          query: inputFromAddress.value,
+        },
+        destination: {
+          query: inputToAddress.value,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(response);
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
   }
 }
 

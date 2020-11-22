@@ -10,7 +10,7 @@ Mapa - finalizado.
 
 Mostrar resmises en el mapa - finalizado.
 
-Obtener distancia del recorrido - en proceso.
+Mostrar recorrdido entre dos puntos - finalizado.
 
-
+Cotizar recorrido.
 
