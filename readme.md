@@ -12,5 +12,5 @@ Mostrar resmises en el mapa - finalizado.
 
 Mostrar recorrdido entre dos puntos - finalizado.
 
-Cotizar recorrido.
+Cotizar recorrido - finalizado.
 

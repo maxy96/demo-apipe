@@ -1,3 +1,4 @@
+const Swal = require('sweetalert2');
 let map;
 const remises = [
   {
@@ -23,16 +24,22 @@ let options = {
   //bounds: defaultBounds,
   types: ['geocode']
 };
-const buttonCurrentPosition = document.querySelectorAll('.current-position')
+const buttonCurrentPosition = document.querySelectorAll('.current-position');
+const buttonCalculateDistance = document.getElementById('calculateDistance');
 const inputFromAddress = document.getElementById('fromAddress');
 const inputToAddress = document.getElementById('toAddress'); 
 const car = 'http://localhost:3000/public/images/car.png';
-window.positionFrom;
-window.positionTo;
+window.positionFrom = new Object();
+window.positionTo = new Object();
 
 function setPositionFrom(pos){
   positionFrom = pos;
 }
+
+function setPositionTo(pos){
+  positionTo = pos;
+}
+
 
 function infoRemises(map){
   for(remis of remises){
@@ -80,20 +87,29 @@ function initMap() {
 
   autocompleteInputFromAddress.addListener('place_changed', () => {
     const place = autocompleteInputFromAddress.getPlace();
-    handleInputPlace(place, geocoder, markerFrom, inputFromAddress);
+    handleInputPlace(place, geocoder, markerFrom, inputFromAddress, positionFrom);
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
 
   autocompleteInputToAddress.addListener('place_changed', () => {
     const place = autocompleteInputToAddress.getPlace();
-    handleInputPlace(place, geocoder, markerTo, inputToAddress);
+    handleInputPlace(place, geocoder, markerTo, inputToAddress, positionTo);
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
 
-  buttonCurrentPosition[0].addEventListener("click", () => {
+  buttonCurrentPosition[0].addEventListener('click', () => {
     handleCurrentGeocoder(inputFromAddress, geocoder, markerFrom);
     calculateAndDisplayRoute(directionsService, directionsRenderer);
   });
+
+  buttonCalculateDistance.addEventListener('click', () =>{
+    const service = new google.maps.DistanceMatrixService();
+    if(positionFrom && positionTo)
+      markerFrom.setVisible(false);
+      markerTo.setVisible(false);
+      calculateDistance(service);
+  });
+
 }
 
 
@@ -138,13 +154,15 @@ function handleCurrentGeocoder(inputElement, geocoder, marker){
   }
 }
 
-function handleInputPlace(place, geocoder, marker ,input){
+function handleInputPlace(place, geocoder, marker ,input, position){
   geocoder.geocode({'placeId': place.place_id}, function (results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
       const lat = results[0].geometry.location.lat();
       const lng = results[0].geometry.location.lng();
       //const direccion = place.formatted_address;
       marker.setPosition({lat: lat, lng: lng});
+      position.lat = lat;
+      position.lng = lng;
     }
   });
   if (!place.geometry) {
@@ -175,6 +193,61 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
       }
     );
   }
+}
+
+function calculateDistance(service){
+  service.getDistanceMatrix(
+    {
+      origins: [new google.maps.LatLng(positionFrom.lat,positionFrom.lng)],
+      destinations: [new google.maps.LatLng(positionTo.lat,positionTo.lng)],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false,
+    }, (response, status) => {
+      if(status == 'OK'){
+        let results = response.rows[0].elements;
+        let distanceText;
+        let distanceValue;
+        let precio = 70;
+        let duration;
+        
+        for (let i = 0; i < results.length; i++) {
+          var element = results[i];
+          distanceText = element.distance.text;
+          distanceValue = element.distance.value;
+          duration = element.duration.text;
+        } 
+        showInfo(distanceText, duration,(distanceValue/1000*precio));
+      }else{
+        alert('error')
+      }
+    })
+}
+
+function showInfo(distance, duration, price){
+  const direction = inputFromAddress.value.split(",")[0];//obtener un array de substring  antes de la coma
+  const directionWPP = direction.replace(/\s/g, "%20");//reemplazar los espacio por %20
+  Swal.fire({
+    title: '<strong><u>Informacion sobre el recorrido</u></strong>',
+    icon: 'info',
+    html:
+      `<p><b>Distancia:</b> ${distance}</p>
+      <p><b>Tiempo:</b> ${duration}</p>
+      <p><b>Precio:</b> $${price}</p>
+      `,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText:
+      '<i class="fab fa-whatsapp"></i> Solicitar',
+    confirmButtonAriaLabel: 'Thumbs up, great!',
+    cancelButtonText:
+      '<i class="fa fa-thumbs-down"></i>',
+    cancelButtonAriaLabel: 'Thumbs down'
+  }).then(() => {
+    window.location.href = `https://api.whatsapp.com/send?phone=5493794963811&text=Necesito%20un%20remis%20en%20${directionWPP}%20para%20la%20persona:%20ingrese%20su%20apellido%20aqui`;
+  });
 }
 
 window.initMap = initMap;

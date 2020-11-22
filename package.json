@@ -17,7 +17,8 @@
     "jquery": "^3.5.1",
     "popper": "^1.0.1",
     "popper.js": "^1.16.1",
-    "resolve-url-loader": "^3.1.2"
+    "resolve-url-loader": "^3.1.2",
+    "sweetalert2": "^10.10.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.2",
