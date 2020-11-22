@@ -245,8 +245,9 @@ function showInfo(distance, duration, price){
     cancelButtonText:
       '<i class="fa fa-thumbs-down"></i>',
     cancelButtonAriaLabel: 'Thumbs down'
-  }).then(() => {
-    window.location.href = `https://api.whatsapp.com/send?phone=5493794963811&text=Necesito%20un%20remis%20en%20${directionWPP}%20para%20la%20persona:%20ingrese%20su%20apellido%20aqui`;
+  }).then((result) => {
+    if(result.value)
+      window.location.href = `https://api.whatsapp.com/send?phone=5493794963811&text=Necesito%20un%20remis%20en%20${directionWPP}%20para%20la%20persona:%20ingrese%20su%20apellido%20aqui`;
   });
 }
 
