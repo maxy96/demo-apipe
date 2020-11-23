@@ -28,7 +28,8 @@ const buttonCurrentPosition = document.querySelectorAll('.current-position');
 const buttonCalculateDistance = document.getElementById('calculateDistance');
 const inputFromAddress = document.getElementById('fromAddress');
 const inputToAddress = document.getElementById('toAddress'); 
-const car = '/public/images/car.png';
+const car = __dirname + 'public/images/car.png';
+console.log(car);
 window.positionFrom = new Object();
 window.positionTo = new Object();
 
