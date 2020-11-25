@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -7,29 +7,57 @@
     <title>Demo-Apipe</title>
     <link rel="stylesheet" href="public/css/main.css">
 </head>
-
+<style>
+    .img-background{
+        background-image: url(/public/images/auto.jpg); 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 38rem;
+    }
+</style>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a href="mapa.html" class="btn btn-round btn-background-color">
+            <a href="index.html" class="btn btn-round btn-background-color">
                 Remises apipe
             </a>
-            <button class="btn btn-round btn-background-color">
-                Mostrar mi ubicación
-            </button>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a href="mapa.html" class="btn btn-round btn-background-color">
+                Solicitar remis
+            </a>
         </div>
     </nav>
 
     <!-- Imagen del mapa -->
-    <div class="container mb-4 mt-4 ">
-        <img src="public/images/corrientes.png" alt="" width="95%">
+    <div class="img-background mb-4">
+        <div class="container ">
+            <div class=" text-position-bottom">
+                <h1 class="text-white display-3">Remiseria APIPE</h1>
+                <p class="text-white">Esta pagina solo es una demo.</p>
+            </div>
+        </div>
     </div>
     
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Informacion!</h1>
+            <p>
+                Esta pagina esta solo para demostracion. <i>Lo que puede encontrar en esta pagina: </i>
+            </p>
+            <ul class="list-group">
+                <li class="list-group-item">Integracion de google maps.</li>
+                <li class="list-group-item">Ver los remises disponibles y ocupados en el mapa.</li>
+                <li class="list-group-item list-group-item-warning">Obtener distancia aproximada entre dos puntos </li>
+                <li class="list-group-item list-group-item-warning">Ver el tiempo aproximado que tardara el remis en recorrer dicha distancia</li>
+                <li class="list-group-item list-group-item-warning">Calcular tarifa aproximada</li>
+                <li class="list-group-item list-group-item-success">Integracion de WhatsApp API para la solicitud del remis</li>
+            </ul>
+        </div>
+    </div>
+    
+
     <!-- Iconos -->
     <div class="container-md">
         <div class="row">

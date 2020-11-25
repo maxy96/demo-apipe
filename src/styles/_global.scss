@@ -28,8 +28,13 @@ $orange: #fc7507;
       background-color: $orange;
   }
 
-  .texto{
-    color: white;
-    font-weight: bold;
-    size: 12px;   
+.texto{
+  color: white;
+  font-weight: bold;
+  size: 12px;   
+}
+
+.text-position-bottom{
+  position: absolute;
+  bottom: 0;
 }
