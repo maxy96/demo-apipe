@@ -1,4 +1,5 @@
 const Swal = require('sweetalert2');
+const calculate = require('./utils/calculate');
 let map;
 const remises = [
   {
@@ -212,7 +213,6 @@ function calculateDistance(service){
         let results = response.rows[0].elements;
         let distanceText;
         let distanceValue;
-        let precio = 70;
         let duration;
         
         for (let i = 0; i < results.length; i++) {
@@ -221,21 +221,25 @@ function calculateDistance(service){
           distanceValue = element.distance.value;
           duration = element.duration.text;
         } 
-        showInfo(distanceText, duration,(distanceValue/1000*precio));
+        let distance = distanceValue/1000;
+        //toFixed(1) redondea a un solo decimal
+        showInfo(distanceText, duration, distance.toFixed(1));
       }else{
         alert('error')
       }
     })
 }
 
-function showInfo(distance, duration, price){
+function showInfo(distanceText, duration, distanceNro){
   const direction = inputFromAddress.value.split(",")[0];//obtener un array de substring  antes de la coma
   const directionWPP = direction.replace(/\s/g, "%20");//reemplazar los espacio por %20
+  const price = calculate.calculatePrice(distanceNro);
+   
   Swal.fire({
     title: '<strong><u>Informacion sobre el recorrido</u></strong>',
     icon: 'info',
     html:
-      `<p><b>Distancia:</b> ${distance}</p>
+      `<p><b>Distancia:</b> ${distanceText}</p>
       <p><b>Tiempo:</b> ${duration}</p>
       <p><b>Precio:</b> $${price}</p>
       `,

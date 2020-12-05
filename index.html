@@ -18,15 +18,34 @@
     }
 </style>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a href="index.html" class="btn btn-round btn-background-color">
-                Remises apipe
-            </a>
-            <a href="mapa.html" class="btn btn-round btn-background-color">
-                Solicitar remis
-            </a>
+            <a class="navbar-brand" href="index.html"><strong>APIPE</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="index.html" class="btn btn-round btn-background-color">
+                            Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="precios.html" class="btn btn-round btn-background-color">
+                            Precios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mapa.html" class="btn btn-round btn-background-color">
+                            Solicitar remis
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -41,14 +60,14 @@
     </div>
     
     <div class="container">
-        <div class="jumbotron">
+        <div class="jumbotron shadow bg-white">
             <h1>Informacion!</h1>
             <p>
                 Esta pagina esta solo para demostracion. <i>Lo que puede encontrar en esta pagina: </i>
             </p>
             <ul class="list-group">
-                <li class="list-group-item">Integracion de google maps.</li>
-                <li class="list-group-item">Ver los remises disponibles y ocupados en el mapa.</li>
+                <li class="list-group-item list-group-item-info">Integracion de google maps.</li>
+                <li class="list-group-item list-group-item-info">Ver los remises disponibles y ocupados en el mapa.</li>
                 <li class="list-group-item list-group-item-warning">Obtener distancia aproximada entre dos puntos </li>
                 <li class="list-group-item list-group-item-warning">Ver el tiempo aproximado que tardara el remis en recorrer dicha distancia</li>
                 <li class="list-group-item list-group-item-warning">Calcular tarifa aproximada</li>
