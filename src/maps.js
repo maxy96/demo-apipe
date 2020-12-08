@@ -128,6 +128,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function handleCurrentGeocoder(inputElement, geocoder, marker){
+  let infoWindow = new google.maps.InfoWindow();
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
         const pos = {
